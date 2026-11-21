@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HINTERKAIFECK — The Killer Lived on the Farm with the Bodies of His Victims | 1922</title>
+<meta name="description" content="An interactive investigation of Germany’s most enigmatic murder: Hinterkaifeck, March 31, 1922. Footprints in the snow, footsteps in the attic and three days of smoke from the chimney.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0b08; --bg2:#14110c; --bg3:#1b1710; --card:#191510;
+  --paper:#e9dec6; --paper2:#cfc0a0; --muted:#a99b7d; --dim:#7d715c;
+  --red:#9e211b; --red2:#c03028; --gold:#c2a062; --line:#2e271c; --line2:#3d3322;
+  --x:50%; --y:40%;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--paper);font-family:'Manrope',system-ui,sans-serif;overflow-x:hidden;line-height:1.6}
+::selection{background:var(--red);color:#fff}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* progress */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--red);width:0%;z-index:1000}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;background:rgba(13,11,8,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 22px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.14em;font-size:14px}
+.logo-mark{width:36px;height:36px;border:1px solid var(--red);color:#fff;background:var(--red);display:grid;place-items:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700}
+.logo small{display:block;letter-spacing:.22em;font-size:9px;color:var(--gold);font-weight:700}
+.links{display:flex;gap:26px;font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--muted)}
+.links a{padding:8px 0;border-bottom:2px solid transparent}
+.links a:hover,.links a.active{color:var(--paper);border-color:var(--red)}
+.burger{display:none;background:none;border:1px solid var(--line2);color:var(--paper);width:42px;height:42px;font-size:20px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;font-weight:800;letter-spacing:.06em;font-size:13px;border:1px solid var(--line2);background:var(--paper);color:#14100a;transition:.25s}
+.btn:hover{background:#fff;transform:translateY(-2px)}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.btn.red:hover{background:var(--red2)}
+.btn.ghost{background:transparent;color:var(--paper)}
+.btn.ghost:hover{border-color:var(--paper)}
+
+/* hero */
+.hero{min-height:100svh;position:relative;display:flex;align-items:flex-end;padding:130px 0 56px;overflow:hidden}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(55%) contrast(1.05) brightness(.62)}
+.hero-shade{position:absolute;inset:0;background:rgba(8,6,4,.52)}
+.hero-shade2{position:absolute;left:0;right:0;bottom:0;height:280px;background:var(--bg);opacity:.0}
+#snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.75}
+.hero-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:0 22px;width:100%}
+.case-tag{display:inline-flex;gap:10px;align-items:center;border:1px solid rgba(233,222,198,.35);background:rgba(10,8,5,.72);padding:8px 12px;font-size:11px;letter-spacing:.18em;font-weight:800}
+.case-tag i{width:8px;height:8px;background:var(--red2);border-radius:50%;display:block;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.2}}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(58px,11vw,138px);line-height:.82;letter-spacing:-.02em;font-weight:700;margin:22px 0 14px;text-transform:uppercase}
+.hero h1 span{color:transparent;-webkit-text-stroke:1.5px var(--paper);display:block}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.6vw,42px);line-height:1.05;max-width:760px;color:#f2e8d2}
+.hero-sub b{color:#ff8a7d;font-weight:600}
+.hero-desc{max-width:620px;color:#d8cdb4;margin:18px 0 26px;font-size:16px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero-stats{margin-top:38px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(233,222,198,.25);background:rgba(10,8,5,.78);backdrop-filter:blur(8px)}
+.stat{padding:18px;border-right:1px solid rgba(233,222,198,.16)}
+.stat:last-child{border-right:0}
+.stat b{font-family:'Cormorant Garamond',serif;font-size:42px;line-height:1;display:block}
+.stat span{font-size:11px;letter-spacing:.14em;color:var(--muted);font-weight:800;text-transform:uppercase}
+.stamp{position:absolute;right:42px;top:110px;z-index:3;border:3px double #d84a3f;color:#ff6b5e;padding:10px 16px;letter-spacing:.22em;font-weight:800;transform:rotate(8deg);background:rgba(20,5,3,.45);font-size:13px}
+
+/* marquee */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0a0806;overflow:hidden;white-space:nowrap;padding:13px 0}
+.marquee-track{display:inline-block;animation:mar 28s linear infinite;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--muted)}
+.marquee-track b{color:var(--red2)}
+@keyframes mar{to{transform:translateX(-50%)}}
+
+/* layout */
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+section{padding:96px 0}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.kicker:before{content:"";width:36px;height:1px;background:var(--red)}
+.h2{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5.4vw,66px);line-height:.95;margin:14px 0 16px;font-weight:700}
+.lead{color:var(--muted);max-width:720px;font-size:17px}
+.reveal{opacity:0;transform:translateY(26px);transition:.8s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* case intro */
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:start}
+.dropcap:first-letter{font-family:'Cormorant Garamond',serif;font-size:64px;float:left;line-height:.8;padding:6px 10px 0 0;color:var(--red2)}
+.text p{color:#cdbfa3;margin-bottom:16px;font-size:16px}
+.quote{border-left:3px solid var(--red);padding:6px 0 6px 20px;margin:26px 0;font-family:'Cormorant Garamond',serif;font-size:28px;line-height:1.1;color:#f0e5cb}
+.fact-box{border:1px solid var(--line2);background:var(--card);padding:26px;position:relative}
+.fact-box:before{content:"DOSSIER No. 1922-0331";position:absolute;top:-11px;left:18px;background:var(--bg);padding:0 10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--gold)}
+.fact-row{display:flex;justify-content:space-between;gap:18px;padding:13px 0;border-bottom:1px dashed var(--line2);font-size:14px}
+.fact-row:last-child{border:0}
+.fact-row span{color:var(--dim)} .fact-row b{text-align:right}
+.photo-card{border:1px solid var(--line2);background:var(--card);padding:10px;margin-top:18px;transform:rotate(-1deg)}
+.photo-card img{height:250px;width:100%;object-fit:cover;filter:grayscale(60%)}
+.photo-card p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);padding:10px 4px 4px}
+
+/* farm */
+.farm-shell{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;margin-top:34px}
+.farm-map{position:relative;min-height:560px;background:#17130d;border:1px solid var(--line2);overflow:hidden;background-image:radial-gradient(#2b2316 1px, transparent 1px);background-size:26px 26px}
+.farm-label{position:absolute;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--dim)}
+.zone{position:absolute;border:1px solid var(--line2);background:#211a10;padding:16px;text-align:left;color:var(--paper);transition:.25s}
+.zone:hover,.zone.active{border-color:var(--red);background:#2a1712;transform:translateY(-2px)}
+.zone b{font-family:'Cormorant Garamond',serif;font-size:24px;display:block;line-height:1}
+.zone span{font-size:11px;color:var(--muted);letter-spacing:.08em}
+.zone .dot{position:absolute;top:-9px;right:-9px;width:18px;height:18px;border-radius:50%;background:var(--red);border:3px solid #0d0b08;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(158,33,27,.18)}}
+.z-forest{top:22px;left:22px;right:22px;height:92px}
+.z-barn{left:22px;top:150px;width:46%;height:190px}
+.z-house{right:22px;top:150px;width:42%;height:190px}
+.z-attic{right:42px;top:118px;width:34%;height:auto;padding:10px 14px}
+.z-yard{left:22px;bottom:22px;right:22px;height:120px}
+.path{position:absolute;left:50%;top:110px;width:2px;height:70px;border-left:2px dashed #8b7a58}
+.farm-info{border:1px solid var(--line2);background:var(--card);padding:28px;min-height:560px;display:flex;flex-direction:column}
+.farm-info h3{font-family:'Cormorant Garamond',serif;font-size:38px;line-height:.95;margin:10px 0}
+.farm-info p{color:var(--muted);font-size:15px}
+.tag{display:inline-block;border:1px solid var(--line2);padding:5px 9px;font-size:10px;letter-spacing:.14em;font-weight:800;color:var(--gold)}
+.victim-line{margin-top:18px;border-top:1px dashed var(--line2);padding-top:16px;display:grid;gap:8px}
+.victim-line div{display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid #241e14;padding-bottom:8px}
+.victim-line span{color:var(--dim)}
+
+/* attic flashlight */
+.attic-sec{background:#070605;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.attic-box{margin-top:32px;position:relative;height:520px;border:1px solid #2a2115;background:#0a0805;overflow:hidden;cursor:none}
+.attic-bg{position:absolute;inset:0;background-image:url('https://images.pexels.com/photos/16874954/pexels-photo-16874954.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');background-size:cover;background-position:center;filter:brightness(.75) grayscale(45%)}
+.clue{position:absolute;max-width:240px;background:rgba(233,222,198,.96);color:#17120a;padding:14px 16px;transform:rotate(-2deg);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.clue b{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1}
+.clue p{font-size:12px;line-height:1.45;color:#5b4c32;margin-top:5px}
+.clue.red{background:var(--red);color:#fff}.clue.red p{color:#ffd8d2}
+.light{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle 190px at var(--x) var(--y), transparent 0, transparent 92px, rgba(0,0,0,.72) 150px, rgba(0,0,0,.985) 205px)}
+.torch{position:absolute;left:var(--x);top:var(--y);width:18px;height:18px;margin:-9px 0 0 -9px;border:1px solid rgba(255,235,180,.9);border-radius:50%;pointer-events:none;box-shadow:0 0 30px 8px rgba(255,205,110,.25)}
+.attic-hint{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:13px}
+.attic-toggle{display:none}
+
+/* victims */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.vcard{background:var(--card);border:1px solid var(--line);padding:26px;text-align:left;color:var(--paper);transition:.3s;position:relative;overflow:hidden}
+.vcard:hover{transform:translateY(-5px);border-color:var(--red)}
+.vcard:before{content:attr(data-num);position:absolute;right:12px;top:2px;font-family:'Cormorant Garamond',serif;font-size:78px;color:#241d12;font-weight:700}
+.avatar{width:62px;height:62px;border-radius:50%;background:#2a2114;border:1px solid var(--line2);display:grid;place-items:center;font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--gold);margin-bottom:16px}
+.vcard h3{font-family:'Cormorant Garamond',serif;font-size:30px;line-height:.95;position:relative}
+.age{color:var(--red2);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;font-weight:700;margin:6px 0 10px}
+.vcard p{color:var(--muted);font-size:14px;position:relative}
+.place{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line2);font-size:12px;color:var(--gold);letter-spacing:.06em}
+
+/* timeline */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0}
+.fbtn{padding:10px 16px;background:transparent;color:var(--muted);border:1px solid var(--line2);font-weight:800;font-size:12px;letter-spacing:.08em}
+.fbtn.active,.fbtn:hover{background:var(--paper);color:#14100a;border-color:var(--paper)}
+.timeline{position:relative;margin-top:10px;padding-left:34px}
+.timeline:before{content:"";position:absolute;left:10px;top:0;bottom:0;width:1px;background:var(--line2)}
+.titem{position:relative;padding:0 0 26px 18px}
+.titem:before{content:"";position:absolute;left:-32px;top:7px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:3px solid var(--dim)}
+.titem.red:before{border-color:var(--red2);background:var(--red)}
+.titem.hide{display:none}
+.tdate{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.14em;font-weight:700}
+.titem h3{font-family:'Cormorant Garamond',serif;font-size:29px;line-height:1;margin:5px 0}
+.titem p{color:var(--muted);max-width:760px;font-size:15px}
+
+/* days */
+.days-sec{background:#120d08;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.big-hours{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:center}
+.hours-num{font-family:'Cormorant Garamond',serif;font-size:clamp(90px,14vw,190px);line-height:.8;color:#fff}
+.hours-num small{font-size:26px;color:var(--red2);letter-spacing:.1em}
+.day-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:34px 0 18px}
+.day-tab{padding:16px;background:#1a140d;border:1px solid var(--line2);color:var(--muted);text-align:left}
+.day-tab b{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--paper);display:block;line-height:1}
+.day-tab.active{border-color:var(--red);background:#2b1410;color:var(--paper)}
+.day-panel{border:1px solid var(--line2);background:var(--card);padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.day-panel h3{font-family:'Cormorant Garamond',serif;font-size:38px;line-height:.95;margin-bottom:12px}
+.day-panel p,.day-panel li{color:var(--muted);font-size:15px}
+.day-panel ul{padding-left:18px;display:grid;gap:8px}
+.evi{border-left:3px solid var(--gold);background:#211a10;padding:16px}
+.evi b{color:var(--gold);font-size:11px;letter-spacing:.16em}
+
+/* theories */
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.tab{padding:12px 18px;border:1px solid var(--line2);background:transparent;color:var(--muted);font-weight:800}
+.tab.active{background:var(--red);border-color:var(--red);color:#fff}
+.theory{margin-top:18px;border:1px solid var(--line2);background:var(--card);padding:30px;display:grid;grid-template-columns:1fr 320px;gap:30px}
+.theory h3{font-family:'Cormorant Garamond',serif;font-size:40px;line-height:.95;margin-bottom:12px}
+.theory p,.theory li{color:var(--muted)}
+.theory ul{padding-left:18px;display:grid;gap:7px;margin-top:14px}
+.meter{height:10px;background:#0d0b08;border:1px solid var(--line2);margin:12px 0 8px}
+.meter i{display:block;height:100%;background:var(--red)}
+.scorebox{border:1px solid var(--line2);padding:20px;background:#120e09;height:fit-content}
+.scorebox b{font-family:'Cormorant Garamond',serif;font-size:52px;line-height:1}
+
+/* evidence + quiz */
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.ev-card{background:#e9dec6;color:#1b150d;padding:22px;transform:rotate(var(--r));text-align:left;min-height:190px;display:flex;flex-direction:column}
+.ev-card:nth-child(odd){--r:-1deg}.ev-card:nth-child(even){--r:1deg}
+.ev-card b{font-family:'Cormorant Garamond',serif;font-size:25px;line-height:1}
+.ev-card p{font-size:13px;color:#66563a;margin:10px 0 16px;flex:1}
+.collect{margin-top:auto;padding:10px 12px;border:1px solid #1b150d;background:transparent;font-weight:800;font-size:12px}
+.collect.done{background:var(--red);border-color:var(--red);color:#fff}
+.quiz{margin-top:54px;border:1px solid var(--line2);background:var(--card);padding:30px}
+.qopt{display:grid;gap:10px;margin-top:18px}
+.opt{padding:15px 16px;text-align:left;background:#100d09;border:1px solid var(--line2);color:var(--paper)}
+.opt:hover{border-color:var(--gold)}
+.opt.correct{border-color:#4f8f5a;background:#142416}
+.opt.wrong{border-color:var(--red);background:#2a100d}
+.quiz-meta{display:flex;justify-content:space-between;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em}
+
+/* epilogue */
+.epi{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:32px}
+.epi img{height:100%;min-height:360px;width:100%;object-fit:cover;filter:grayscale(70%)}
+.epi-card{border:1px solid var(--line2);background:var(--card);padding:30px}
+.mistakes{display:grid;gap:12px;margin-top:20px}
+.mistake{display:flex;gap:14px;border:1px solid var(--line);padding:16px;background:#120e09}
+.mistake b{color:var(--red2);font-family:'JetBrains Mono',monospace}
+.mistake p{color:var(--muted);font-size:14px}
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:13px;background:#080604}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:1240px;margin:0 auto;padding:0 22px}
+#toTop{position:fixed;right:20px;bottom:20px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:0;font-size:20px;z-index:800;display:none;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:1200;display:none;place-items:center;padding:20px}
+.modal.open{display:grid}
+.modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.82)}
+.modal-card{position:relative;max-width:620px;width:100%;background:#efe3c8;color:#19130b;padding:34px;transform:rotate(-.5deg);max-height:88vh;overflow:auto}
+.modal-card h3{font-family:'Cormorant Garamond',serif;font-size:44px;line-height:.9;margin:8px 0}
+.modal-card p{color:#5f5138;margin-bottom:12px}
+.close{position:absolute;right:14px;top:14px;width:38px;height:38px;border:1px solid #c9b98f;background:transparent;font-size:20px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.modal-grid div{border:1px solid #d2c29b;padding:12px}.modal-grid span{font-size:10px;letter-spacing:.14em;color:#8a764f;font-weight:800}.modal-grid b{display:block;margin-top:4px}
+
+@media(max-width:900px){
+  .links{display:none;position:absolute;top:66px;left:0;right:0;background:#0d0b08;flex-direction:column;padding:18px 22px;border-bottom:1px solid var(--line)}
+  .links.open{display:flex}.burger{display:block}
+  .grid2,.farm-shell,.big-hours,.day-panel,.theory,.epi{grid-template-columns:1fr}
+  .cards,.board{grid-template-columns:1fr 1fr}
+  .hero-stats{grid-template-columns:1fr 1fr}.stat{border-bottom:1px solid rgba(233,222,198,.16)}
+  .stamp{display:none}.farm-info{min-height:auto}.day-tabs{grid-template-columns:1fr 1fr}
+  .attic-box{cursor:auto;height:620px}.attic-toggle{display:inline-flex}
+  .clue{max-width:200px}.clue.c1{left:14px!important;top:14px!important}.clue.c2{right:14px!important;top:180px!important;left:auto!important}.clue.c3{left:14px!important;bottom:14px!important;top:auto!important}
+}
+@media(max-width:560px){.cards,.board{grid-template-columns:1fr}section{padding:70px 0}.hero{padding-top:100px}.z-barn,.z-house{width:44%}.zone b{font-size:19px}.farm-map{min-height:520px}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="#top"><span class="logo-mark">H</span><span>HINTERKAIFECK<small>BAVARIA • 1922 • CASE STILL UNSOLVED</small></span></a>
+    <div class="links" id="links">
+      <a href="#case">CASE</a><a href="#farm">FARM</a><a href="#victims">VICTIMS</a><a href="#timeline">TIMELINE</a><a href="#days">THREE DAYS</a><a href="#theories">THEORIES</a><a href="#quiz">QUIZ</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <img class="hero-img" src="https://images.pexels.com/photos/20560518/pexels-photo-20560518.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="A lonely old house in a field under a dark sky">
+  <div class="hero-shade"></div><canvas id="snow"></canvas>
+  <div class="stamp">UNSOLVED ✦ 1922</div>
+  <div class="hero-in">
+    <div class="case-tag"><i></i> CRIMINAL CASE • GRÖBERN, BAVARIA • 31.03.1922</div>
+    <h1>Hinter—<span>kaifeck</span></h1>
+    <p class="hero-sub">The killer lived on the farm <b>with the bodies of his victims</b>. He ate their bread. Fed their cattle. Kept the stove burning — until the neighbors looked into the barn.</p>
+    <p class="hero-desc">Six people were killed with a mattock in a single night. Yet smoke kept rising from the chimney for three more days. This is a story not only about a murder — but about someone who knew the house, the attic and every habit of the family from the inside.</p>
+    <div class="hero-cta">
+      <a class="btn red" href="#farm">EXPLORE THE FARM ↓</a>
+      <a class="btn ghost" href="#days">WHAT HAPPENED NEXT →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b data-count="6">0</b><span>victims in one night</span></div>
+      <div class="stat"><b><span data-count="72">0</span>+</b><span>hours the killer was in the house*</span></div>
+      <div class="stat"><b data-count="100">0</b><span>suspects over a century</span></div>
+      <div class="stat"><b data-count="0">0</b><span>verdicts ever reached</span></div>
+    </div>
+    <p class="mono" style="font-size:10px;color:#9c8d6d;margin-top:10px;letter-spacing:.08em">* BASED ON CIRCUMSTANTIAL SIGNS: SMOKE, FED CATTLE, FRESHLY CUT BREAD</p>
+  </div>
+</header>
+
+<div class="marquee"><div class="marquee-track" id="marquee"></div></div>
+
+<!-- CASE -->
+<section id="case">
+  <div class="wrap grid2">
+    <div class="reveal text">
+      <div class="kicker">01 — What happened</div>
+      <h2 class="h2">The house everyone<br>walked past</h2>
+      <p class="dropcap">Hinterkaifeck stood apart from the village of Gröbern, right at the edge of the forest. The Gruber family lived in seclusion and had a reputation for being strange: the owner Andreas was harsh, barely spoke to the neighbors, and dark rumors had circulated for years about his relationship with his daughter Viktoria.</p>
+      <p>On the evening of March 31, 1922, four members of the family — one after another — were lured into the barn. There they were killed with blows of a mattock. Then the killer entered the house, where he killed two-year-old Josef in his crib and the new maid Maria Baumgartner, who had arrived at the farm only a few hours earlier.</p>
+      <div class="quote">“Footprints led from the forest to the house.<br>There were none leading back.”</div>
+      <p>The most terrifying part came after. On Sunday, the family was not seen at church. Neighbors noticed smoke from the chimney, heard that the cattle had been fed, and heard the dog barking from the locked barn. Someone kept living the ordinary life of the farm — next to six bodies.</p>
+      <a class="btn red" href="#timeline">DAY-BY-DAY TIMELINE →</a>
+    </div>
+    <div class="reveal">
+      <div class="fact-box">
+        <div class="fact-row"><span>DATE</span><b>March 31 — April 4, 1922</b></div>
+        <div class="fact-row"><span>LOCATION</span><b>Hinterkaifeck, near Waidhofen</b></div>
+        <div class="fact-row"><span>WEAPON</span><b>A mattock (Reuthaue), per the investigation</b></div>
+        <div class="fact-row"><span>BODIES IN THE BARN</span><b>4 — covered with hay and a plank</b></div>
+        <div class="fact-row"><span>BODIES IN THE HOUSE</span><b>2 — the maid and the child</b></div>
+        <div class="fact-row"><span>THEFT</span><b>A large sum left untouched</b></div>
+        <div class="fact-row"><span>STATUS IN <span id="yearNow">2026</span></span><b style="color:#ff7a6e">UNSOLVED • <span id="yearsSince">104</span> YEARS</b></div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.pexels.com/photos/19693563/pexels-photo-19693563.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Footprints in the snow in a winter forest">
+        <p>↑ ILLUSTRATION: A TRAIL OF FOOTPRINTS IN THE SNOW — LIKE THE ONE ANDREAS GRUBER FOUND</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FARM -->
+<section id="farm" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">02 — Interactive map</div><h2 class="h2">Explore the farm</h2><p class="lead">Click the zones. Investigators believed the victims were lured into the barn one by one — probably on the pretext of a problem with the cattle or a machine. The killer knew the layout far too well.</p></div>
+    <div class="farm-shell reveal">
+      <div class="farm-map" id="farmMap">
+        <div class="farm-label" style="top:10px;right:16px">NORTH ↑ • FOREST</div>
+        <button class="zone z-forest" data-zone="forest"><span class="dot"></span><b>🌲 Forest</b><span>WHERE THE FOOTPRINTS CAME FROM • NONE LED BACK</span></button>
+        <div class="path"></div>
+        <button class="zone z-barn" data-zone="barn"><span class="dot"></span><b>Barn</b><span>4 BODIES UNDER THE HAY</span><br><br><span style="font-size:28px">🐄 🐄</span></button>
+        <button class="zone z-attic" data-zone="attic"><b>Attic</b><span>FOOTSTEPS • A BED?</span></button>
+        <button class="zone z-house" data-zone="house"><span class="dot"></span><b>Farmhouse</b><span>2 BODIES • STOVE WAS LIT</span><br><br><span style="font-size:28px">⌂</span></button>
+        <button class="zone z-yard" data-zone="yard"><b>Yard and engine shed</b><span>BROKEN ENGINE • POSSIBLE PRETEXT TO LURE THEM TO THE BARN • DOG</span></button>
+      </div>
+      <aside class="farm-info" id="farmInfo"></aside>
+    </div>
+    <p class="mono" style="font-size:11px;color:var(--dim);margin-top:14px;letter-spacing:.08em">THE PLAN IS SCHEMATIC AND RECONSTRUCTED FROM INVESTIGATION DESCRIPTIONS. THE FARM WAS DEMOLISHED IN 1923.</p>
+  </div>
+</section>
+
+<!-- ATTIC FLASHLIGHT -->
+<section class="attic-sec" id="attic">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">03 — Attic • Interactive</div><h2 class="h2">Sweep a flashlight across the attic</h2><p class="lead">Move your cursor (or finger) across the room. It was here that the family heard footsteps in the days before the murders. The previous maid quit, insisting the farm was “haunted”.</p></div>
+    <div class="attic-box reveal" id="atticBox">
+      <div class="attic-bg"></div>
+      <div class="clue c1" style="left:6%;top:12%"><b>Footsteps above the bedroom</b><p>Andreas told a neighbor: at night, someone was walking across the attic. The search turned up nothing.</p></div>
+      <div class="clue c2 red" style="right:8%;top:18%"><b>A newspaper nobody bought</b><p>A Munich newspaper was found in the house. No one in the family subscribed to it or bought it.</p></div>
+      <div class="clue c3" style="left:38%;bottom:12%"><b>Scratches and shifted tiles</b><p>Fresh marks were noticed on the attic door, and the snow on the roof had been disturbed.</p></div>
+      <div class="clue" style="right:16%;bottom:16%"><b>The missing keys</b><p>Shortly before the murders, a spare key disappeared from the house. The locks had not been forced.</p></div>
+      <div class="light"></div><div class="torch"></div>
+    </div>
+    <div class="attic-hint"><span>💡 On desktop: move the mouse &nbsp;•&nbsp; On mobile: swipe your finger across the attic</span><button class="btn ghost attic-toggle" id="atticToggle" style="padding:10px 14px">TURN ON THE LIGHT</button><span class="mono">CLUES FOUND: <b id="clueCount" style="color:var(--gold)">0 / 4</b></span></div>
+  </div>
+</section>
+
+<!-- VICTIMS -->
+<section id="victims">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">04 — The victims</div><h2 class="h2">Six people. One night.</h2><p class="lead">Click a card to open the dossier. Maria Baumgartner worked on the farm for less than a day — she had replaced a maid who fled because of “ghosts”.</p></div>
+    <div class="cards" id="victimCards"></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">05 — Chronology</div><h2 class="h2">From footprints in the snow — to silence</h2></div>
+    <div class="filters reveal">
+      <button class="fbtn active" data-filter="all">THE WHOLE CASE</button>
+      <button class="fbtn" data-filter="omen">OMENS</button>
+      <button class="fbtn" data-filter="night">THE NIGHT OF THE MURDERS</button>
+      <button class="fbtn" data-filter="after">AFTER</button>
+    </div>
+    <div class="timeline" id="timelineList">
+      <article class="titem reveal" data-cat="omen"><div class="tdate">AUTUMN 1921</div><h3>The maid leaves</h3><p>The previous maid resigns after night-time sounds and the feeling that the house is being watched. Her account will later become the first page of the case file.</p></article>
+      <article class="titem reveal" data-cat="omen"><div class="tdate">A FEW DAYS BEFORE</div><h3>Footprints with no way back</h3><p>Andreas finds footprints in the snow: from the forest to the house. Not a single one leads back. Yet no stranger is found in the house.</p></article>
+      <article class="titem reveal" data-cat="omen"><div class="tdate">MARCH 1922</div><h3>A newspaper, keys, the attic</h3><p>A key disappears, a strange newspaper appears, and footsteps and shuffling are heard in the attic at night. Andreas refuses to go to the police and will not let anyone stay overnight to keep watch.</p></article>
+      <article class="titem red reveal" data-cat="night"><div class="tdate">MARCH 31 • DAY</div><h3>Maria arrives</h3><p>Forty-four-year-old Maria Baumgartner arrives for her new job. Her sister would later say she seemed to sense the coming disaster and did not want to go.</p></article>
+      <article class="titem red reveal" data-cat="night"><div class="tdate">MARCH 31 • EVENING</div><h3>Four walk into the barn</h3><p>Andreas, the elder Cäzilia, Viktoria and seven-year-old Cäzilia are killed in the barn one after another. The bodies are laid side by side and covered with hay and an old door.</p></article>
+      <article class="titem red reveal" data-cat="night"><div class="tdate">MARCH 31 • NIGHT</div><h3>The killer enters the house</h3><p>Maria is killed in her room, by the doorway. Two-year-old Josef dies in his mother’s bedroom. The money and valuables in the house are mostly left in place.</p></article>
+      <article class="titem reveal" data-cat="after"><div class="tdate">APRIL 1–3</div><h3>Smoke over the empty house</h3><p>Neighbors see smoke from the chimney. The cattle are fed, the cows stop lowing, the postman leaves the mail. The family is absent from Sunday church — and this does not immediately make anyone go inside.</p></article>
+      <article class="titem reveal" data-cat="after"><div class="tdate">APRIL 4</div><h3>The neighbors open the barn</h3><p>Alarmed by the family’s absence, the neighbors led by Lorenz Schlittenbauer enter the farm and find the bodies. The police will arrive later — to a crime scene already disturbed.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- DAYS -->
+<section class="days-sec" id="days">
+  <div class="wrap">
+    <div class="big-hours reveal">
+      <div><div class="kicker">06 — The most chilling part</div><div class="hours-num"><span data-count="72">0</span><small>HOURS</small></div></div>
+      <div><h2 class="h2" style="margin-top:0">He didn’t run away.<br>He stayed and lived.</h2><p class="lead">This is not proven by direct testimony — it is a conclusion drawn from the neighbors’ observations and the examination of the house. But it is precisely what makes Hinterkaifeck a legend of criminology.</p></div>
+    </div>
+    <div class="day-tabs reveal" id="dayTabs"></div>
+    <div class="day-panel reveal" id="dayPanel"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px" class="reveal" id="dayFacts">
+      <div class="evi"><b>FACT FROM THE NEIGHBORS’ ACCOUNTS</b><p style="color:var(--muted);font-size:14px;margin-top:8px">Smoke from the chimney was noticed after the presumed night of the murders.</p></div>
+      <div class="evi"><b>FACT OF THE EXAMINATION</b><p style="color:var(--muted);font-size:14px;margin-top:8px">Freshly cut bread and signs of a recent meal were found in the house, and the cattle had been fed.</p></div>
+      <div class="evi" style="border-color:var(--red)"><b style="color:#ff8a7d">THE KEY QUESTION</b><p style="color:var(--muted);font-size:14px;margin-top:8px">Why would the killer risk staying where the neighbors could walk in at any moment?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORIES + EVIDENCE -->
+<section id="theories">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">07 — Lines of inquiry</div><h2 class="h2">Who knew this house from the inside?</h2><p class="lead">Over a hundred years, the police checked more than a hundred suspects. No theory has ever produced evidence strong enough for a court. The scores below are not verdicts — they visualize the strength of the arguments in public reconstructions.</p></div>
+    <div class="tabs reveal" id="theoryTabs"></div>
+    <div class="theory reveal" id="theoryPanel"></div>
+
+    <div class="reveal" style="margin-top:64px"><div class="kicker">Evidence board</div><h2 class="h2" style="font-size:44px">Assemble the case into a folder</h2><p class="lead">Mark the clues you consider key. Collect all six and receive the virtual investigator’s conclusion.</p></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;flex-wrap:wrap;gap:12px"><span class="mono" style="font-size:12px;letter-spacing:.14em;color:var(--gold)">IN THE FOLDER: <b id="evCount">0 / 6</b></span><span id="evMsg" style="color:var(--muted);font-size:14px">The folder is empty. Start with the footprints in the snow.</span><button class="btn ghost" id="evReset" style="padding:10px 14px">RESET</button></div>
+    <div class="board" id="board"></div>
+
+    <!-- QUIZ -->
+    <div class="quiz reveal" id="quiz">
+      <div class="quiz-meta"><span>INVESTIGATOR’S QUIZ • <span id="qStep">QUESTION 1 / 5</span></span><span>SCORE: <b id="qScore">0</b></span></div>
+      <h3 class="serif" style="font-size:36px;line-height:1;margin:16px 0 6px" id="qText"></h3>
+      <p style="color:var(--muted);font-size:14px" id="qHint"></p>
+      <div class="qopt" id="qOpts"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px;flex-wrap:wrap"><span id="qFeed" style="font-size:14px;color:var(--gold)"></span><button class="btn red" id="qNext" style="display:none;padding:12px 18px">NEXT →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- EPILOGUE -->
+<section style="background:var(--bg2);border-top:1px solid var(--line)" id="epilogue">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">08 — Why the case failed</div><h2 class="h2">The evidence was destroyed.<br>The farm was demolished.</h2></div>
+    <div class="epi">
+      <img class="reveal" src="https://images.pexels.com/photos/16874953/pexels-photo-16874953.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="A dark abandoned barn with hay inside">
+      <div class="epi-card reveal">
+        <h3 class="serif" style="font-size:34px;line-height:1">A century’s investigation — with the methods of its century</h3>
+        <div class="mistakes">
+          <div class="mistake"><b>01</b><p>Neighbors and onlookers entered the crime scene before the police and moved objects around.</p></div>
+          <div class="mistake"><b>02</b><p>The victims’ heads were sent to clairvoyants in Munich. The skulls were later lost during the Second World War.</p></div>
+          <div class="mistake"><b>03</b><p>Suspects were interrogated for years, but the key checks were carried out too late.</p></div>
+          <div class="mistake"><b>04</b><p>As early as 1923 the farm was demolished. Items missed during the first examination were found in the rubble.</p></div>
+        </div>
+        <p style="color:var(--muted);margin-top:18px;font-size:15px">Today, the site of Hinterkaifeck is a field with a memorial stone. In 2007, police academy students re-examined the files with modern methods, but the name of the presumed culprit was never published: guilt cannot be proven a century later.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><a class="btn red" href="#quiz">TAKE THE QUIZ ↑</a><a class="btn ghost" href="#top">BACK TO THE START</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <span><b style="color:var(--paper)">HINTERKAIFECK • 1922—<span id="footYear"></span></b><br>An interactive reconstruction based on publicly available historical publications.</span>
+    <span style="max-width:520px">The photographs on this site are atmospheric illustrations, not archival images of the victims. Details marked as theories and rumors are not facts established by a court. The case is officially unsolved.</span>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="To top">↑</button>
+
+<!-- MODAL -->
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-bg" id="modalBg"></div>
+  <div class="modal-card">
+    <button class="close" id="modalClose">×</button>
+    <div class="mono" style="font-size:10px;letter-spacing:.2em;color:#9a211b;font-weight:700">PERSONAL FILE • HINTERKAIFECK</div>
+    <h3 id="mName"></h3><p class="mono" id="mAge" style="font-size:11px;letter-spacing:.14em;color:#8a764f"></p>
+    <p id="mDesc"></p>
+    <div class="modal-grid">
+      <div><span>WHERE FOUND</span><b id="mPlace"></b></div>
+      <div><span>CIRCUMSTANCE</span><b id="mFact"></b></div>
+    </div>
+    <p id="mNote" style="font-size:14px;border-left:3px solid #9e211b;padding-left:14px"></p>
+    <button class="btn red" id="mOk" style="width:100%;justify-content:center">CLOSE THE DOSSIER</button>
+  </div>
+</div>
+
+<script>
+/* ========== DATA ========== */
+const farmData={
+  forest:{tag:"CLUE #1 • SNOW",title:"The forest behind the farm",desc:"Andreas Gruber found a trail of footprints leading from the edge of the forest straight to the house. There was no trail back. It seemed the visitor had either stayed in the house or left by another route that was never found.",rows:[["FOOTPRINTS","Forest → house"],["WAY BACK","None found"],["ANDREAS’ REACTION","Told the neighbors, not the police"]]},
+  barn:{tag:"SCENE • 4 VICTIMS",title:"The barn",desc:"Here they found Andreas, his wife Cäzilia, Viktoria and little Cäzilia. The bodies lay side by side, covered with hay and an old door. Investigators believed they had been called out of the house one by one.",rows:[["ANDREAS GRUBER","63 years old"],["CÄZILIA GRUBER","72 years old"],["VIKTORIA GABRIEL","35 years old"],["CÄZILIA GABRIEL","7 years old"]]},
+  house:{tag:"SCENE • 2 VICTIMS",title:"The farmhouse",desc:"In the house, Maria Baumgartner and two-year-old Josef were killed. After that, someone used the kitchen and the stove: the house bore signs of recent life, not of a hasty escape.",rows:[["MARIA BAUMGARTNER","The maid’s room"],["JOSEF GABRIEL","Bedroom, child’s crib"],["MONEY","A large sum untouched"]]},
+  attic:{tag:"CLUE #2 • SOUNDS",title:"The attic",desc:"Footsteps, shuffling, shifted roof tiles and the feeling of being watched tormented the family in its final days. Could the killer have been hiding in the attic before the night of the murders? There is no direct proof — but the theory explains his knowledge of the house.",rows:[["SOUNDS","Footsteps at night"],["ACCESS","No signs of break-in"],["THE PREVIOUS MAID","Quit out of fear"]]},
+  yard:{tag:"THEORY • THE LURE",title:"The yard and engine shed",desc:"One reconstruction: a noise or a breakdown in the shed / among the cattle served as a pretext to lure the family members into the barn one at a time. The family dog was later found alive — locked in the barn.",rows:[["DOG","Found alive, locked in"],["CATTLE","Fed after the murders"],["ENGINE","Reported faulty"]]}
+};
+const victims=[
+ {n:"Andreas Gruber",i:"AG",age:"63 • HEAD OF THE FARM",short:"Head of the family. Found the footprints in the snow, heard the attic — but refused help and the police.",place:"Barn",fact:"First to report the footprints",desc:"Andreas was seen as a withdrawn and domineering man. It was he who, a few days before his death, told a neighbor about the footprints, the newspaper and the sounds in the attic — but flatly refused to let anyone stay overnight on the farm.",note:"His reluctance to seek help still raises questions: he feared outside interference in the family’s affairs more than the unknown presence near the house."},
+ {n:"Cäzilia Gruber",i:"CG",age:"72 • ANDREAS’ WIFE",short:"The elder of the family. Died in the barn together with her husband, daughter and granddaughter.",place:"Barn",fact:"Covered with hay together with the others",desc:"Cäzilia had spent her whole adult life on the farm. Her body was found next to her husband. The nature of the wounds led investigators to conclude the attack was sudden, without a long struggle.",note:"That night, probably not everyone went to the barn at once: it mattered to the killer to keep the family divided."},
+ {n:"Viktoria Gabriel",i:"VG",age:"35 • DAUGHTER, WIDOW",short:"Sang in the church choir. Her absence from Sunday service became the alarm signal.",place:"Barn",fact:"Her husband was killed in WWI*",desc:"Viktoria was widowed during the war and returned with her children to her parents’ farm. Rumors surrounded the paternity of her son Josef, which the investigation examined but never proved in court.",note:"* Karl Gabriel was believed killed, yet the absence of a body gave rise to one of the most persistent theories of the case."},
+ {n:"Cäzilia Gabriel",i:"C",age:"7 • GRANDDAUGHTER",short:"The day before the murders, she told at school that the whole family had lain awake at night because of frightening sounds.",place:"Barn",fact:"The eldest of the children",desc:"Seven-year-old Cäzilia went to school and, according to recollections, spoke of night-time noise in the house. She was found in the barn next to her mother and grandparents.",note:"Her account is one of the indirect confirmations that something frightening really was happening in the house during the last nights."},
+ {n:"Josef Gabriel",i:"J",age:"2 • GRANDSON",short:"Killed in the house, in his crib in his mother’s bedroom.",place:"Viktoria’s bedroom",fact:"The youngest",desc:"Two-year-old Josef was not in the barn: the killer found him in the house after the attack on the adults. It was his parentage that became the soil for rumors about a motive of an intra-family secret.",note:"The rumors about Josef’s paternity are part of the case’s history, but they should be treated as unverified testimony of the era."},
+ {n:"Maria Baumgartner",i:"MB",age:"44 • MAID",short:"Arrived at the farm on March 31. Worked a few hours. The previous maid had fled.",place:"The maid’s room",fact:"Her first day at work",desc:"Maria had come to replace the maid who had quit. She was found at the entrance to her room: she probably had not yet fallen asleep or got up at the noise. The killer could not have known in advance that she would be in the house on this night of all nights — or he knew the farm’s entire schedule.",note:"Maria was an accidental victim of someone else’s secret. Her death on her very first evening makes the theory of someone “waiting in the house” especially grim."}
+];
+const days=[
+ {tab:"NIGHT",date:"MARCH 31 → APRIL 1",title:"Silence after the barn",desc:"The murders are done. The bodies in the barn are covered. Two more bodies are in the house. But the stove does not go out.",list:["The bodies in the barn are neatly covered with hay and a plank","The dog is locked in and stays alive","The money remains in the house — a robbery does not look like the goal"],fact:"If the killer left at once, who kept the farm alive after that?"},
+ {tab:"DAY 1",date:"SATURDAY • APRIL 1",title:"Smoke from the chimney",desc:"The neighbors notice the usual picture: smoke rises over Hinterkaifeck. The farm looks inhabited.",list:["Passers-by see smoke from the chimney","The cattle are calmer — they have been fed","Not a single family member comes out to meet anyone"],fact:"The smoke is the neighbors’ observation, not a journalist’s guess. It was precisely this that gave rise to the theory of the killer who “stayed alive” there."},
+ {tab:"DAY 2",date:"SUNDAY • APRIL 2",title:"An empty place at church",desc:"Viktoria always sang in the choir, the family attended the service. This Sunday they are not there. And still the alarm does not yet turn into action.",list:["The family is not seen at the Sunday service","The postman and passers-by do not meet the owners","The cows do not low from hunger — someone is caring for them"],fact:"The farm’s isolation played into the killer’s hands: the family’s absence was explained by Andreas’ character."},
+ {tab:"DISCOVERY",date:"TUESDAY • APRIL 4",title:"The neighbors go inside",desc:"When the family has not appeared for two more days, the neighbors decide to enter. First — the silence of the yard. Then — the barn.",list:["A group of neighbors inspects the buildings","Four bodies are found in the barn, under the hay","In the house — Maria and Josef; the police are called"],fact:"By the time the police arrived, the crime scene had already been visited by many people. The case was doomed from the first hour."}
+];
+const theories=[
+ {tab:"Lorenz Schlittenbauer",title:"The neighbor who found the bodies",score:38,list:["He was close to Viktoria; by rumor he could have been Josef’s father and paid / argued about money","It was he who led the neighbors to the farm and, according to several recollections, behaved strangely near the bodies","Against: no direct evidence; his alibi and the chronology were checked, no charges were brought"],verdict:"The most debated local theory. A motive is easy to ascribe — but his presence on the night of the murders could not be proven."},
+ {tab:"The “resurrected” husband",title:"Did Karl Gabriel not die?",score:24,list:["Viktoria’s husband was believed killed in the war, but the body was never found / identified by the family","The theory: he returned, learned of his wife’s life and took revenge on the whole family","Against: later evidence of his death in France emerged, and the “return” is not confirmed by documents"],verdict:"A cinematic theory that rested on the absence of a body. Historically — one of the weakest."},
+ {tab:"The stranger in the attic",title:"The one who lived above them",score:46,list:["It explains the footprints with no way back, the footsteps, the newspaper and the knowledge of the layout","It explains why there was no break-in and why the killer could stay afterwards","Against: the investigation established neither an identity, nor a motive, nor traces of anyone living in the attic"],verdict:"It best explains the oddities before the murders — and explains nothing about who it was."},
+ {tab:"The robber",title:"He came for the money",score:12,list:["Money was rumored to be kept on the farm; a large sum was indeed found in the house","Against: the money and valuables were left behind, and the killer lingered on the farm instead of fleeing","Against: a too personal, methodical slaughter for a random robbery"],verdict:"The investigation checked drifters and former prisoners of war. The killer’s behavior almost refutes this theory."}
+];
+const evidences=[
+ {t:"Footprints in the snow",d:"A trail from the forest to the house — and not a single one back. The key to the theory of a man who stayed inside."},
+ {t:"Footsteps in the attic",d:"The sounds were heard not only by the family: the previous maid quit precisely because of them."},
+ {t:"A foreign newspaper",d:"A Munich edition in a house where nobody bought or subscribed to such a paper."},
+ {t:"The missing key",d:"No break-in — but a vanished key. The killer could enter as one of their own."},
+ {t:"Smoke and fed cattle",d:"The farm kept “living” for days after its owners died. The most chilling clue of the case."},
+ {t:"Untouched money",d:"A large sum remained in the house. The motive was not robbery — it was something personal."}
+];
+const quiz=[
+ {q:"Where were most of the victims found?",hint:"Think of the farm map above.",opts:["In the farmhouse","In the barn, under the hay","In the engine shed","At the edge of the forest"],a:1,feed:"Correct. Four lay in the barn, covered with hay and an old door."},
+ {q:"What was strange about the footprints in the snow?",hint:"Andreas himself told a neighbor about it.",opts:["The footprints were barefoot","They led to the house, with none leading back","There were far too many of them","They belonged to a child"],a:1,feed:"Exactly. The visitor seemed to dissolve into the house."},
+ {q:"When did Maria Baumgartner arrive at the farm?",hint:"The most tragic detail of her dossier.",opts:["A month before the murders","A year before the murders","On the day of the murders","After the murders"],a:2,feed:"Yes. She worked for less than a single day."},
+ {q:"What showed that the killer stayed on the farm?",hint:"Recall the “72 hours” section.",opts:["He was seen in the village","Smoke from the chimney and fed cattle","He left a note","He stole a cart"],a:1,feed:"Correct. The farm kept “living” without its owners."},
+ {q:"How did the investigation end?",hint:"The stamp on this site is no accident.",opts:["The killer was executed","The killer died in prison","The case was closed by statute of limitations, with a name","The case was never solved"],a:3,feed:"Yes. In more than 100 years — not a single verdict."}
+];
+
+/* ========== HELPERS ========== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+/* marquee */
+(()=>{const t=' UNSOLVED <b>✦</b> MARCH 31, 1922 <b>✦</b> FOOTPRINTS WITH NO WAY BACK <b>✦</b> FOOTSTEPS IN THE ATTIC <b>✦</b> SMOKE FROM THE CHIMNEY <b>✦</b> 6 VICTIMS <b>✦</b> 0 VERDICTS <b>✦</b>';$('#marquee').innerHTML=t+t;})();
+
+/* nav */
+$('#burger').onclick=()=>$('#links').classList.toggle('open');
+$$('#links a').forEach(a=>a.onclick=()=>$('#links').classList.remove('open'));
+
+/* progress + active + totop */
+const sections=['case','farm','victims','timeline','days','theories','quiz'];
+addEventListener('scroll',()=>{
+  const h=document.documentElement, p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  $('#progress').style.width=p+'%';
+  $('#toTop').style.display=h.scrollTop>700?'block':'none';
+  let cur=''; sections.forEach(id=>{const el=document.getElementById(id); if(el && el.getBoundingClientRect().top<160) cur=id;});
+  $$('#links a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+$('#toTop').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+/* years */
+(()=>{const y=new Date().getFullYear();$('#yearNow').textContent=y;$('#yearsSince').textContent=y-1922;$('#footYear').textContent=y;})();
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+
+/* counters */
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);const end=+e.target.dataset.count,t0=performance.now();const tick=t=>{const p=Math.min((t-t0)/1400,1);e.target.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}),{threshold:.6});
+$$('[data-count]').forEach(el=>cio.observe(el));
+
+/* snow */
+(()=>{const c=$('#snow'),x=c.getContext('2d');let W,H,fl=[];
+ function rs(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;fl=Array.from({length:110},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.4,s:Math.random()*.7+.25,o:Math.random()*.5+.15}))}
+ rs();addEventListener('resize',rs);
+ (function draw(){x.clearRect(0,0,W,H);fl.forEach(f=>{x.beginPath();x.arc(f.x,f.y,f.r,0,7);x.fillStyle=`rgba(240,235,220,${f.o})`;x.fill();f.y+=f.s;f.x+=Math.sin(f.y*.01)*.3;if(f.y>H){f.y=-4;f.x=Math.random()*W}});requestAnimationFrame(draw)})();
+})();
+
+/* farm */
+function renderFarm(key){
+  const d=farmData[key];
+  $('#farmInfo').innerHTML=`<span class="tag">${d.tag}</span><h3>${d.title}</h3><p>${d.desc}</p><div class="victim-line">${d.rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div><p class="mono" style="margin-top:auto;padding-top:20px;font-size:10px;letter-spacing:.14em;color:var(--dim)">PICK ANOTHER ZONE ON THE MAP ↑</p>`;
+  $$('.zone').forEach(z=>z.classList.toggle('active',z.dataset.zone===key));
+}
+$$('.zone').forEach(z=>z.onclick=()=>renderFarm(z.dataset.zone));
+renderFarm('barn');
+
+/* attic flashlight */
+(()=>{const box=$('#atticBox');let lit=false,found=new Set();
+ function move(cx,cy){const r=box.getBoundingClientRect(),px=(cx-r.left)/r.width*100,py=(cy-r.top)/r.height*100;box.style.setProperty('--x',px+'%');box.style.setProperty('--y',py+'%');
+  $$('.clue').forEach((cl,i)=>{const cr=cl.getBoundingClientRect(),ccx=cr.left+cr.width/2,ccy=cr.top+cr.height/2;if(Math.hypot(cx-ccx,cy-ccy)<210&&!found.has(i)){found.add(i);$('#clueCount').textContent=found.size+' / 4';}});}
+ box.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+ box.addEventListener('touchmove',e=>{move(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+ box.addEventListener('touchstart',e=>{move(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+ $('#atticToggle').onclick=function(){lit=!lit;box.querySelector('.light').style.opacity=lit?0:1;box.querySelector('.torch').style.display=lit?'none':'block';this.textContent=lit?'TURN OFF THE LIGHT':'TURN ON THE LIGHT';if(lit){found=new Set([0,1,2,3]);$('#clueCount').textContent='4 / 4';}};
+})();
+
+/* victims */
+$('#victimCards').innerHTML=victims.map((v,i)=>`<button class="vcard reveal" data-i="${i}" data-num="0${i+1}"><span class="avatar">${v.i}</span><h3>${v.n}</h3><div class="age">${v.age}</div><p>${v.short}</p><div class="place">FOUND: ${v.place.toUpperCase()} • OPEN DOSSIER →</div></button>`).join('');
+$$('.vcard').forEach(c=>{io.observe(c);c.onclick=()=>{const v=victims[+c.dataset.i];$('#mName').textContent=v.n;$('#mAge').textContent=v.age;$('#mDesc').textContent=v.desc;$('#mPlace').textContent=v.place;$('#mFact').textContent=v.fact;$('#mNote').textContent=v.note;$('#modal').classList.add('open');document.body.style.overflow='hidden';}});
+const closeModal=()=>{$('#modal').classList.remove('open');document.body.style.overflow='';};
+$('#modalClose').onclick=closeModal;$('#modalBg').onclick=closeModal;$('#mOk').onclick=closeModal;
+addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* timeline filter */
+$$('.fbtn').forEach(b=>b.onclick=()=>{$$('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const f=b.dataset.filter;$$('.titem').forEach(t=>t.classList.toggle('hide',f!=='all'&&t.dataset.cat!==f));});
+
+/* days */
+$('#dayTabs').innerHTML=days.map((d,i)=>`<button class="day-tab ${i===0?'active':''}" data-i="${i}"><span class="mono" style="font-size:10px;letter-spacing:.14em">${d.date}</span><b>${d.tab}</b></button>`).join('');
+function renderDay(i){const d=days[i];$$('.day-tab').forEach((t,j)=>t.classList.toggle('active',i===j));$('#dayPanel').innerHTML=`<div><div class="kicker">${d.date}</div><h3>${d.title}</h3><p>${d.desc}</p></div><div><ul>${d.list.map(x=>`<li>${x}</li>`).join('')}</ul><div class="evi" style="margin-top:18px"><b>CONCLUSION OF THE INVESTIGATION</b><p style="margin-top:6px">${d.fact}</p></div></div>`;}
+$$('.day-tab').forEach(t=>t.onclick=()=>renderDay(+t.dataset.i));renderDay(0);
+
+/* theories */
+$('#theoryTabs').innerHTML=theories.map((t,i)=>`<button class="tab ${i===0?'active':''}" data-i="${i}">${t.tab}</button>`).join('');
+function renderTheory(i){const t=theories[i];$$('#theoryTabs .tab').forEach((x,j)=>x.classList.toggle('active',i===j));$('#theoryPanel').innerHTML=`<div><div class="kicker">THEORY ${i+1} / ${theories.length}</div><h3>${t.title}</h3><ul>${t.list.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="scorebox"><span class="mono" style="font-size:10px;letter-spacing:.16em;color:var(--gold)">CONVINCINGNESS IN RECONSTRUCTIONS</span><b>${t.score}%</b><div class="meter"><i style="width:${t.score}%"></i></div><p style="font-size:14px">${t.verdict}</p></div>`;}
+$$('#theoryTabs .tab').forEach(t=>t.onclick=()=>renderTheory(+t.dataset.i));renderTheory(0);
+
+/* evidence board */
+let collected=new Set();
+function renderBoard(){$('#board').innerHTML=evidences.map((e,i)=>`<article class="ev-card"><span class="mono" style="font-size:10px;letter-spacing:.16em;color:#9e211b;font-weight:700">CLUE 0${i+1}</span><b>${e.t}</b><p>${e.d}</p><button class="collect ${collected.has(i)?'done':''}" data-i="${i}">${collected.has(i)?'✓ IN THE CASE FILE':'＋ ADD TO CASE'}</button></article>`).join('');
+ $$('.collect').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;collected.has(i)?collected.delete(i):collected.add(i);$('#evCount').textContent=collected.size+' / 6';$('#evMsg').textContent=collected.size===6?'Investigator: “The motive was not money. The killer knew the house and was in no hurry to leave. Look for someone of your own.”':collected.size>=3?'Good. The picture already looks worse than a burglary.':'The folder is filling up…';renderBoard();});}
+renderBoard();
+$('#evReset').onclick=()=>{collected.clear();$('#evCount').textContent='0 / 6';$('#evMsg').textContent='The folder is empty. Start with the footprints in the snow.';renderBoard();};
+
+/* quiz */
+let qi=0,qs=0,answered=false;
+function renderQuiz(){
+ answered=false;$('#qNext').style.display='none';$('#qFeed').textContent='';
+ if(qi>=quiz.length){$('#qStep').textContent='DONE';$('#qText').textContent=qs>=4?'Rank: cold-case investigator':qs>=3?'Rank: attentive archivist':'Rank: the neighbor who never walked in';$('#qHint').textContent=`You answered ${qs} of ${quiz.length} correctly. A hundred years on, Hinterkaifeck still tests attentiveness better than any exam.`;$('#qOpts').innerHTML=`<button class="opt" onclick="location.reload()">↻ Try again</button>`;return;}
+ const q=quiz[qi];$('#qStep').textContent=`QUESTION ${qi+1} / ${quiz.length}`;$('#qScore').textContent=qs;$('#qText').textContent=q.q;$('#qHint').textContent=q.hint;
+ $('#qOpts').innerHTML=q.opts.map((o,i)=>`<button class="opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ $$('#qOpts .opt').forEach(b=>b.onclick=()=>{if(answered)return;answered=true;const i=+b.dataset.i,ok=i===q.a;if(ok)qs++;$$('#qOpts .opt').forEach((x,j)=>{x.classList.toggle('correct',j===q.a);if(j===i&&!ok)x.classList.add('wrong');x.disabled=true;});$('#qFeed').textContent=(ok?'✓ ':'✕ ')+q.feed;$('#qScore').textContent=qs;$('#qNext').style.display='inline-flex';$('#qNext').textContent=qi===quiz.length-1?'FINISH →':'NEXT →';});
+}
+$('#qNext').onclick=()=>{qi++;renderQuiz();};
+renderQuiz();
+</script>
+</body>
+</html>
